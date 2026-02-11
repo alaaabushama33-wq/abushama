@@ -1,134 +1,1281 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>ملخص عني</title>
-  <style>
-    body {
-      font-family: "Cairo", Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦕 · دينو الوادي · أسرار لا نهائية 🦖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
+        body {
+            background: linear-gradient(145deg, #1d3b4c 0%, #2a4f5f 100%);
+            font-family: 'Segoe UI', 'Tahoma', 'Verdana', system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
+        .game-container {
+            background: #2c5e6b;
+            border-radius: 36px;
+            box-shadow: 0 25px 35px -8px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,240,0.1);
+            padding: 25px 25px 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #74c7b8;
+        }
 
-    h1 {
-      font-size: 36px;
-      color: #ffd369;
-    }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 3em;
+            font-weight: 700;
+            text-shadow: 5px 5px 0 #0e3a47, 8px 8px 15px black;
+            color: #ffe9c7;
+            letter-spacing: 6px;
+            word-break: break-word;
+            text-align: center;
+            line-height: 1.2;
+        }
 
-    h2 {
-      font-size: 24px;
-      color: #4dd0e1;
-      margin-top: 40px;
-    }
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px 30px;
+            background: #193e48;
+            border-radius: 60px;
+            margin-bottom: 18px;
+            color: #fbe9d2;
+            box-shadow: inset 0 -3px 0 #0f2a30, inset 0 2px 8px #6dab9c;
+            font-weight: bold;
+        }
 
-    p {
-      line-height: 1.9;
-      font-size: 18px;
-      text-align: justify;
-    }
+        #score, #highscore {
+            font-size: 28px;
+            background: #102e35;
+            padding: 8px 24px;
+            border-radius: 50px;
+            box-shadow: inset 0 2px 5px #040e10, 0 5px 0 #062026;
+            color: #ffd78c;
+            display: inline-block;
+            letter-spacing: 2px;
+        }
 
-    .card {
-      background: rgba(0,0,0,0.3);
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
+        #instructions {
+            text-align: center;
+            margin: 5px 0 5px;
+            font-size: 1.3rem;
+            background: #d9e68e;
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: #1e4a4f;
+            font-weight: 600;
+            box-shadow: 0 8px 0 #8fa843, 0 10px 20px black;
+            border: 2px solid #fef7d2;
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+        canvas {
+            display: block;
+            width: 800px;
+            height: 400px;
+            border-radius: 28px;
+            box-shadow: 0 20px 30px -5px black, inset 0 0 0 3px rgba(255, 220, 150, 0.5);
+            transition: transform 0.2s;
+            margin-bottom: 5px;
+        }
 
-    ul li {
-      padding: 10px;
-      margin-bottom: 8px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-    }
+        canvas:hover {
+            transform: scale(1.002);
+        }
 
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
+        .secret-badge {
+            margin-top: 15px;
+            color: #ffe69b;
+            text-shadow: 2px 2px 0 #6b3f00;
+            font-size: 1.1rem;
+            display: flex;
+            gap: 20px;
+            background: #1e464a;
+            padding: 8px 25px;
+            border-radius: 40px;
+            border: 1px solid #ffcf8a;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .highlight {
-      color: #ffd369;
-      font-weight: bold;
-    }
-  </style>
+        .secret-badge span {
+            color: #ffecb0;
+        }
+
+        @media (max-width: 860px) {
+            canvas { width: 100%; height: auto; }
+            .stats-panel { flex-direction: column; gap: 10px; }
+        }
+    </style>
 </head>
 <body>
-
-  <div class="container">
-
-    <h1>ملخص عني</h1>
-    <p>
-      أنا شخص طموح وأسعى دائمًا لتطوير نفسي، خاصة في مجال 
-      <span class="highlight">التقنية والبرمجة</span>.
-      أحب التعلم المستمر، وتجربة أشياء جديدة، وتحويل الأفكار إلى واقع ملموس.
-    </p>
-
-    <div class="card">
-      <h2>من أنا؟</h2>
-      <p>
-        أؤمن أن المعرفة قوة، وأن البرمجة ليست مجرد أكواد،
-        بل أسلوب تفكير وطريقة لحل المشكلات.
-        أتعامل مع التحديات بهدوء، وأحب الوصول للحلول الذكية والبسيطة.
-      </p>
+    <div class="game-container">
+        <h1>🦕 وادي الأسرار 🦖</h1>
+        <div class="stats-panel">
+            <span id="score">🏆 النقاط: 0</span>
+            <span id="highscore">👑 القياسي: 0</span>
+        </div>
+        <div id="instructions">
+            ⚡ اضغط <span style="background:#2c3e50; padding:6px 16px; border-radius:40px; color:#ffe083;">Space</span> أو <span style="background:#2c3e50; padding:6px 16px; border-radius:40px; color:#ffe083;">▲</span> للقفز   •   🎲 7 أسرار خفية!
+        </div>
+        <canvas id="canvas" width="800" height="400"></canvas>
+        <div class="secret-badge">
+            <span>🌈 كونامي</span>
+            <span>🦴 DINO</span>
+            <span>🌵 ذهبي</span>
+            <span>🕊️ طيور</span>
+            <span>🌙 MOON</span>
+            <span>🪐 منصة</span>
+            <span>⚡ DINO2</span>
+        </div>
+        <div style="margin-top:10px; color:#f3e6c8;">✨🔥 أكثر من 7 أسرار – هل تجدها كلها؟ 🔥✨</div>
     </div>
 
-    <div class="card">
-      <h2>اهتماماتي</h2>
-      <ul>
-        <li>💻 البرمجة وتطوير الويب</li>
-        <li>📚 التعلم الذاتي وتطوير المهارات</li>
-        <li>🧠 التفكير المنطقي وحل المشكلات</li>
-        <li>🚀 استكشاف أفكار وتقنيات جديدة</li>
-      </ul>
-    </div>
+    <script>
+        (function(){
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const scoreEl = document.getElementById('score');
+            const highscoreEl = document.getElementById('highscore');
 
-    <div class="card">
-      <h2>نقاط قوتي</h2>
-      <ul>
-        <li>✔️ حب التعلم والاستمرار</li>
-        <li>✔️ الصبر والتركيز</li>
-        <li>✔️ القدرة على التطور خطوة بخطوة</li>
-        <li>✔️ الفضول التقني</li>
-      </ul>
-    </div>
+            // ----------  🔊 أصوات المتصفح – مُصححة بالكامل  ----------
+            const Sound = (function() {
+                let audioCtx = null;
 
-    <div class="card">
-      <h2>هدفي</h2>
-      <p>
-        هدفي أن أكون شخصًا مؤثرًا في مجالي،
-        وأستخدم مهاراتي في البرمجة لصناعة أشياء مفيدة،
-        سواء لنفسي أو للآخرين.
-      </p>
-    </div>
+                function initAudioContext() {
+                    if (audioCtx) return audioCtx;
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    return audioCtx;
+                }
 
-    <div class="footer">
-      © 2026 — هذا الملخص قابل للتعديل حسب شخصيتك الحقيقية 🌟
-    </div>
+                function resumeContext() {
+                    if (audioCtx && audioCtx.state === 'suspended') {
+                        audioCtx.resume();
+                    }
+                }
 
-  </div>
+                // الأصوات الأساسية
+                function playJump() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(620, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.12);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                }
 
+                function playScore() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.08);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                }
+
+                function playGameOver() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc1 = audioCtx.createOscillator();
+                    const gain1 = audioCtx.createGain();
+                    osc1.type = 'sawtooth';
+                    osc1.frequency.setValueAtTime(200, now);
+                    osc1.frequency.exponentialRampToValueAtTime(150, now + 0.2);
+                    gain1.gain.setValueAtTime(0.3, now);
+                    gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc1.connect(gain1);
+                    gain1.connect(audioCtx.destination);
+                    osc1.start(now);
+                    osc1.stop(now + 0.25);
+
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.type = 'square';
+                    osc2.frequency.setValueAtTime(120, now + 0.1);
+                    osc2.frequency.exponentialRampToValueAtTime(90, now + 0.3);
+                    gain2.gain.setValueAtTime(0.25, now + 0.1);
+                    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.start(now + 0.1);
+                    osc2.stop(now + 0.35);
+                }
+
+                // أصوات الأسرار
+                function playSecretFanfare() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                }
+
+                function playGoldenCactus() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(1567.98, now);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+
+                function playRainbowMagic() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    ['C5', 'E5', 'G5', 'C6'].forEach((note, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        let freq = note === 'C5' ? 523.25 : note === 'E5' ? 659.25 : note === 'G5' ? 783.99 : 1046.50;
+                        osc.frequency.setValueAtTime(freq, now + i * 0.1);
+                        gain.gain.setValueAtTime(0.2, now + i * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.2);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + i * 0.1);
+                        osc.stop(now + i * 0.1 + 0.2);
+                    });
+                }
+
+                function playNightMode() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(110, now + 0.5);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.6);
+                }
+
+                function playBirdSound() {
+                    if (!audioCtx) initAudioContext();
+                    resumeContext();
+                    if (!audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(1100, now + 0.05);
+                    osc.frequency.exponentialRampToValueAtTime(760, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                }
+
+                function enableAudioOnFirstInteraction() {
+                    const resume = () => {
+                        if (audioCtx && audioCtx.state === 'suspended') {
+                            audioCtx.resume();
+                        }
+                        window.removeEventListener('keydown', resume);
+                    };
+                    window.addEventListener('keydown', resume);
+                }
+
+                initAudioContext();
+                enableAudioOnFirstInteraction();
+
+                return {
+                    jump: playJump,
+                    score: playScore,
+                    gameOver: playGameOver,
+                    secretFanfare: playSecretFanfare,
+                    goldenCactus: playGoldenCactus,
+                    rainbowMagic: playRainbowMagic,
+                    nightMode: playNightMode,
+                    bird: playBirdSound
+                };
+            })();
+
+            // ----------  ⚙️ إدارة الأسرار (7+ أسرار) ----------
+            const Secrets = {
+                // 1. كود كونامي - قوس قزح
+                konami: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'],
+                konamiIndex: 0,
+                konamiActivated: false,
+
+                // 2. كود DINO - قبعة
+                dinoCode: ['KeyD', 'KeyI', 'KeyN', 'KeyO'],
+                dinoIndex: 0,
+                dinoActivated: false,
+
+                // 3. كود MOON - وضع الليل
+                moonCode: ['KeyM', 'KeyO', 'KeyO', 'KeyN'],
+                moonIndex: 0,
+                moonActivated: false,
+
+                // 4. كود DINO2 - دينو فائق السرعة
+                dino2Code: ['KeyD', 'KeyI', 'KeyN', 'KeyO', 'Digit2'],
+                dino2Index: 0,
+                dino2Activated: false,
+
+                // 5. كود PLATFORM - منصات سرية
+                platformCode: ['KeyP', 'KeyL', 'KeyA', 'KeyT'],
+                platformIndex: 0,
+                platformActivated: false,
+
+                // رسالة سرية
+                secretMessage: '',
+                secretMessageTimer: 0,
+
+                // طيور سرية
+                birds: [],
+                lastBirdTime: 0,
+
+                // منصات سرية
+                platforms: [],
+
+                activateKonami() {
+                    if (this.konamiActivated) return;
+                    this.konamiActivated = true;
+                    this.secretMessage = '🌈 قوس قزح! العالم ملون!';
+                    this.secretMessageTimer = 120;
+                    Sound.rainbowMagic();
+                },
+
+                activateDinoCode() {
+                    if (this.dinoActivated) return;
+                    this.dinoActivated = true;
+                    this.secretMessage = '🦕 دينو الحفلة! قبعة رائعة!';
+                    this.secretMessageTimer = 120;
+                    Sound.secretFanfare();
+                },
+
+                activateMoonCode() {
+                    if (this.moonActivated) return;
+                    this.moonActivated = true;
+                    this.secretMessage = '🌙 وضع الليل! النجوم تتلألأ!';
+                    this.secretMessageTimer = 120;
+                    Sound.nightMode();
+                },
+
+                activateDino2Code() {
+                    if (this.dino2Activated) return;
+                    this.dino2Activated = true;
+                    this.secretMessage = '⚡ دينو توربو! سرعة خارقة!';
+                    this.secretMessageTimer = 120;
+                    Sound.secretFanfare();
+                },
+
+                activatePlatformCode() {
+                    if (this.platformActivated) return;
+                    this.platformActivated = true;
+                    this.secretMessage = '🪐 منصات سرية! اقفز عليها!';
+                    this.secretMessageTimer = 120;
+                    Sound.secretFanfare();
+                    
+                    // إضافة منصة سرية فوراً
+                    this.platforms.push({
+                        x: canvas.width - 100,
+                        y: GROUND_Y - 80,
+                        width: 60,
+                        height: 10,
+                        visible: true
+                    });
+                },
+
+                checkKey(keyCode) {
+                    // Konami
+                    if (keyCode === this.konami[this.konamiIndex]) {
+                        this.konamiIndex++;
+                        if (this.konamiIndex === this.konami.length) {
+                            this.activateKonami();
+                            this.konamiIndex = 0;
+                        }
+                    } else {
+                        this.konamiIndex = (keyCode === this.konami[0]) ? 1 : 0;
+                    }
+
+                    // DINO
+                    if (keyCode === this.dinoCode[this.dinoIndex]) {
+                        this.dinoIndex++;
+                        if (this.dinoIndex === this.dinoCode.length) {
+                            this.activateDinoCode();
+                            this.dinoIndex = 0;
+                        }
+                    } else {
+                        this.dinoIndex = (keyCode === this.dinoCode[0]) ? 1 : 0;
+                    }
+
+                    // MOON
+                    if (keyCode === this.moonCode[this.moonIndex]) {
+                        this.moonIndex++;
+                        if (this.moonIndex === this.moonCode.length) {
+                            this.activateMoonCode();
+                            this.moonIndex = 0;
+                        }
+                    } else {
+                        this.moonIndex = (keyCode === this.moonCode[0]) ? 1 : 0;
+                    }
+
+                    // DINO2
+                    if (keyCode === this.dino2Code[this.dino2Index]) {
+                        this.dino2Index++;
+                        if (this.dino2Index === this.dino2Code.length) {
+                            this.activateDino2Code();
+                            this.dino2Index = 0;
+                        }
+                    } else {
+                        this.dino2Index = (keyCode === this.dino2Code[0]) ? 1 : 0;
+                    }
+
+                    // PLATFORM
+                    if (keyCode === this.platformCode[this.platformIndex]) {
+                        this.platformIndex++;
+                        if (this.platformIndex === this.platformCode.length) {
+                            this.activatePlatformCode();
+                            this.platformIndex = 0;
+                        }
+                    } else {
+                        this.platformIndex = (keyCode === this.platformCode[0]) ? 1 : 0;
+                    }
+                },
+
+                updateBirds() {
+                    if (!this.konamiActivated && !this.moonActivated) return;
+                    
+                    const now = Date.now();
+                    if (now - this.lastBirdTime > 3000 + Math.random() * 2000) {
+                        this.birds.push({
+                            x: canvas.width + 50,
+                            y: 80 + Math.random() * 150,
+                            size: 12 + Math.random() * 8,
+                            speed: 2 + Math.random() * 3
+                        });
+                        this.lastBirdTime = now;
+                        if (Math.random() < 0.3) Sound.bird();
+                    }
+
+                    for (let i = this.birds.length - 1; i >= 0; i--) {
+                        this.birds[i].x -= this.birds[i].speed;
+                        if (this.birds[i].x + 50 < 0) {
+                            this.birds.splice(i, 1);
+                        }
+                    }
+                },
+
+                drawBirds(ctx) {
+                    this.birds.forEach(bird => {
+                        ctx.fillStyle = this.moonActivated ? '#B0C4DE' : '#FFB6C1';
+                        ctx.shadowBlur = 5;
+                        ctx.shadowColor = this.moonActivated ? '#4682B4' : '#FF69B4';
+                        
+                        // جسم الطائر
+                        ctx.beginPath();
+                        ctx.ellipse(bird.x, bird.y, bird.size, bird.size * 0.6, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        // جناح
+                        ctx.fillStyle = this.moonActivated ? '#87CEEB' : '#FFA07A';
+                        ctx.beginPath();
+                        ctx.ellipse(bird.x - bird.size * 0.5, bird.y, bird.size * 0.8, bird.size * 0.4, 0.3, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        // منقار
+                        ctx.fillStyle = '#FFD700';
+                        ctx.beginPath();
+                        ctx.moveTo(bird.x + bird.size * 0.7, bird.y);
+                        ctx.lineTo(bird.x + bird.size, bird.y - 3);
+                        ctx.lineTo(bird.x + bird.size, bird.y + 3);
+                        ctx.closePath();
+                        ctx.fill();
+                    });
+                    ctx.shadowBlur = 0;
+                },
+
+                updatePlatforms(speed) {
+                    for (let i = this.platforms.length - 1; i >= 0; i--) {
+                        this.platforms[i].x -= speed * 0.8;
+                        if (this.platforms[i].x + this.platforms[i].width < 0) {
+                            this.platforms.splice(i, 1);
+                        }
+                    }
+
+                    // إضافة منصات جديدة إذا كان السر مفعلاً
+                    if (this.platformActivated && Math.random() < 0.01) {
+                        this.platforms.push({
+                            x: canvas.width,
+                            y: GROUND_Y - 100 - Math.random() * 100,
+                            width: 50 + Math.random() * 40,
+                            height: 8,
+                            visible: true
+                        });
+                    }
+                },
+
+                drawPlatforms(ctx) {
+                    this.platforms.forEach(platform => {
+                        // منصة شفافة سحرية
+                        ctx.fillStyle = 'rgba(255, 215, 0, 0.6)';
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = '#FFD700';
+                        ctx.beginPath();
+                        ctx.roundRect(platform.x, platform.y, platform.width, platform.height, 4);
+                        ctx.fill();
+                        
+                        // تأثير لامع
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                        ctx.beginPath();
+                        ctx.roundRect(platform.x + 2, platform.y + 2, platform.width - 4, platform.height - 4, 3);
+                        ctx.fill();
+                    });
+                    ctx.shadowBlur = 0;
+                },
+
+                checkPlatformCollision(dino) {
+                    if (!this.platformActivated) return false;
+                    
+                    for (let platform of this.platforms) {
+                        if (dino.x + 15 < platform.x + platform.width &&
+                            dino.x + 33 > platform.x &&
+                            dino.y <= platform.y + platform.height &&
+                            dino.y + dino.dy >= platform.y &&
+                            dino.dy > 0) {  // نازل فقط
+                            
+                            dino.y = platform.y - 10;
+                            dino.dy = -10;  // قفزة من المنصة
+                            dino.grounded = false;
+                            
+                            // إزالة المنصة بعد استخدامها
+                            this.platforms = this.platforms.filter(p => p !== platform);
+                            
+                            this.secretMessage = '🪐 منصة سرية! +50';
+                            this.secretMessageTimer = 60;
+                            score += 50;
+                            Sound.secretFanfare();
+                            
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+
+                drawSecretMessage(ctx, canvas) {
+                    if (this.secretMessageTimer > 0) {
+                        ctx.font = 'bold 28px "Segoe UI", Arial';
+                        ctx.fillStyle = '#FFD966';
+                        ctx.shadowColor = '#8B4513';
+                        ctx.shadowBlur = 8;
+                        ctx.textAlign = 'center';
+                        ctx.fillText(this.secretMessage, canvas.width / 2, 130);
+                        ctx.shadowBlur = 0;
+                        this.secretMessageTimer--;
+                    }
+                },
+
+                reset() {
+                    this.konamiActivated = false;
+                    this.dinoActivated = false;
+                    this.moonActivated = false;
+                    this.dino2Activated = false;
+                    this.platformActivated = false;
+                    this.konamiIndex = 0;
+                    this.dinoIndex = 0;
+                    this.moonIndex = 0;
+                    this.dino2Index = 0;
+                    this.platformIndex = 0;
+                    this.secretMessage = '';
+                    this.secretMessageTimer = 0;
+                    this.birds = [];
+                    this.platforms = [];
+                    this.lastBirdTime = 0;
+                }
+            };
+
+            // ----------  حالة اللعبة  ----------
+            let gameState = 'start';
+            let score = 0;
+            let highScore = localStorage.getItem('dinoHighScore') ? parseInt(localStorage.getItem('dinoHighScore')) : 0;
+            highscoreEl.textContent = `👑 القياسي: ${highScore}`;
+
+            const dino = {
+                x: 80,
+                y: 340,
+                dy: 0,
+                grounded: true,
+                width: 48,
+                height: 52,
+                runCycle: 0
+            };
+
+            let obstacles = [];
+            let lastObsTime = 0;
+            let obsInterval = 1500;
+
+            let clouds = [];
+            let hills = [];
+            let lastCloudTime = 0;
+            let lastHillTime = 0;
+            let dustParticles = [];
+
+            let speed = 4.8;
+
+            const GROUND_Y = 340;
+            const GRAVITY = 0.58;
+
+            // ----------  دوال الرسم (مع دالة drawCloud المفقودة) ----------
+            function drawCloud(cloud) {
+                ctx.shadowColor = 'rgba(255,255,240,0.8)';
+                ctx.shadowBlur = 16;
+                ctx.fillStyle = Secrets.moonActivated ? 'rgba(176,196,222,0.95)' : 'rgba(255,255,250,0.95)';
+                ctx.beginPath();
+                ctx.arc(cloud.x, cloud.y, cloud.size * 1.1, 0, Math.PI * 2);
+                ctx.arc(cloud.x + 18, cloud.y - 6, cloud.size * 0.9, 0, Math.PI * 2);
+                ctx.arc(cloud.x + 38, cloud.y - 2, cloud.size * 1.2, 0, Math.PI * 2);
+                ctx.arc(cloud.x + 26, cloud.y + 10, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.arc(cloud.x - 12, cloud.y + 2, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            function drawHills() {
+                hills.forEach(h => {
+                    let hillColor;
+                    if (Secrets.konamiActivated) {
+                        const hue = (h.x * 0.1 + Date.now() * 0.01) % 360;
+                        hillColor = `hsl(${hue}, 60%, 50%)`;
+                    } else if (Secrets.moonActivated) {
+                        hillColor = '#2C3E50';
+                    } else {
+                        hillColor = '#b67a4b';
+                    }
+                    
+                    const grad = ctx.createLinearGradient(h.x, h.baseY - 70, h.x + 140, h.baseY);
+                    if (Secrets.konamiActivated) {
+                        grad.addColorStop(0, hillColor);
+                        grad.addColorStop(0.8, `hsl(${(parseInt(hillColor.match(/\d+/)) + 30) % 360}, 60%, 40%)`);
+                    } else {
+                        grad.addColorStop(0, Secrets.moonActivated ? '#34495E' : '#dba56b');
+                        grad.addColorStop(0.8, Secrets.moonActivated ? '#2C3E50' : '#b67a4b');
+                    }
+                    
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.moveTo(h.x - 20, h.baseY);
+                    ctx.quadraticCurveTo(h.x + 40, h.baseY - h.height, h.x + 120, h.baseY - 12);
+                    ctx.quadraticCurveTo(h.x + 170, h.baseY + 10, h.x + 220, h.baseY);
+                    ctx.lineTo(h.x + 220, GROUND_Y + 20);
+                    ctx.lineTo(h.x - 30, GROUND_Y + 20);
+                    ctx.closePath();
+                    ctx.fill();
+                });
+            }
+
+            function drawGround() {
+                if (Secrets.moonActivated) {
+                    const gradGround = ctx.createLinearGradient(0, GROUND_Y, 0, canvas.height);
+                    gradGround.addColorStop(0, '#4A5C6E');
+                    gradGround.addColorStop(0.8, '#2E3B4E');
+                    ctx.fillStyle = gradGround;
+                } else if (Secrets.konamiActivated) {
+                    const gradGround = ctx.createLinearGradient(0, GROUND_Y, 0, canvas.height);
+                    gradGround.addColorStop(0, '#ffb87e');
+                    gradGround.addColorStop(0.8, '#ff8a5c');
+                    ctx.fillStyle = gradGround;
+                } else {
+                    const gradGround = ctx.createLinearGradient(0, GROUND_Y, 0, canvas.height);
+                    gradGround.addColorStop(0, '#e6b87e');
+                    gradGround.addColorStop(0.8, '#c28a5c');
+                    ctx.fillStyle = gradGround;
+                }
+                ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+                
+                ctx.fillStyle = Secrets.moonActivated ? '#1E2B38' : (Secrets.konamiActivated ? '#c06a3f' : '#a56b3f');
+                ctx.fillRect(0, GROUND_Y-3, canvas.width, 6);
+                
+                for (let i = 0; i < canvas.width; i += 38) {
+                    if (Secrets.konamiActivated) {
+                        const hue = (i * 0.1 + Date.now() * 0.02) % 360;
+                        ctx.fillStyle = `hsl(${hue}, 80%, 70%)`;
+                    } else if (Secrets.moonActivated) {
+                        ctx.fillStyle = '#5D6D7E';
+                    } else {
+                        ctx.fillStyle = '#ffd49f';
+                    }
+                    ctx.fillRect((i - (score * 0.3 % 38)) % canvas.width, GROUND_Y + 12, 16, 4);
+                }
+
+                ctx.fillStyle = Secrets.moonActivated ? '#AAB7B8' : (Secrets.konamiActivated ? '#f0e68c' : '#8a6240');
+                for (let i=0;i<12;i++) {
+                    let x = (Date.now() * 0.01 + i*53) % canvas.width;
+                    ctx.beginPath();
+                    ctx.arc(x, GROUND_Y + 8, 1.8, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            }
+
+            function drawDino() {
+                ctx.shadowColor = '#2d2d2d';
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetY = 4;
+
+                let bodyColor, bellyColor, legColor, spotColor;
+                
+                if (Secrets.konamiActivated) {
+                    const hue = (Date.now() * 0.1) % 360;
+                    bodyColor = `hsl(${hue}, 60%, 50%)`;
+                    bellyColor = `hsl(${hue + 20}, 50%, 65%)`;
+                    legColor = `hsl(${hue - 20}, 60%, 40%)`;
+                    spotColor = `hsl(${hue + 40}, 70%, 55%)`;
+                } else if (Secrets.moonActivated) {
+                    bodyColor = '#5D6D7E';
+                    bellyColor = '#4A5C6E';
+                    legColor = '#2E3B4E';
+                    spotColor = '#6B7B8E';
+                } else {
+                    bodyColor = '#618b74';
+                    bellyColor = '#4f6d5e';
+                    legColor = '#3b5246';
+                    spotColor = '#405a4c';
+                }
+
+                ctx.fillStyle = bellyColor;
+                ctx.strokeStyle = '#2a4038';
+                ctx.lineWidth = 2.5;
+                ctx.fillStyle = bodyColor;
+                ctx.beginPath();
+                ctx.roundRect(dino.x, dino.y-48, 42, 32, 12);
+                ctx.fill();
+
+                ctx.fillStyle = Secrets.konamiActivated ? `hsl(${(Date.now()*0.1 + 30)%360}, 60%, 45%)` : 
+                              (Secrets.moonActivated ? '#3E4A5A' : '#4f6d5e');
+                ctx.beginPath();
+                ctx.moveTo(dino.x-12, dino.y-33);
+                ctx.quadraticCurveTo(dino.x-28, dino.y-38, dino.x-16, dino.y-18);
+                ctx.lineTo(dino.x-4, dino.y-28);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = legColor;
+                let legOffset = dino.grounded ? (Math.sin(Date.now() * 0.02) * 2) : 0;
+                
+                // دينو توربو - أسرع حركة أرجل
+                if (Secrets.dino2Activated) {
+                    legOffset = dino.grounded ? (Math.sin(Date.now() * 0.08) * 4) : 0;
+                }
+                
+                ctx.fillRect(dino.x + 5, dino.y - 22 + legOffset, 9, 24);
+                ctx.fillRect(dino.x + 27, dino.y - 22 - legOffset*0.5, 9, 24);
+
+                ctx.fillStyle = bodyColor;
+                ctx.beginPath();
+                ctx.ellipse(dino.x + 44, dino.y - 43, 12, 15, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 2;
+                ctx.fillStyle = '#fcf9f2';
+                ctx.beginPath();
+                ctx.arc(dino.x + 48, dino.y - 47, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#1d1d1d';
+                ctx.beginPath();
+                ctx.arc(dino.x + 49.5, dino.y - 48, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(dino.x + 51, dino.y - 49, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#2e4039';
+                ctx.lineWidth = 2.5;
+                ctx.moveTo(dino.x + 44, dino.y - 54);
+                ctx.lineTo(dino.x + 54, dino.y - 56);
+                ctx.stroke();
+
+                // قبعة الحفلة
+                if (Secrets.dinoActivated) {
+                    ctx.fillStyle = '#FF4500';
+                    ctx.beginPath();
+                    ctx.moveTo(dino.x + 48, dino.y - 73);
+                    ctx.lineTo(dino.x + 58, dino.y - 63);
+                    ctx.lineTo(dino.x + 38, dino.y - 63);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.fillStyle = '#FFD700';
+                    ctx.beginPath();
+                    ctx.arc(dino.x + 48, dino.y - 70, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = spotColor;
+                ctx.beginPath();
+                ctx.arc(dino.x + 20, dino.y - 48, 5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = Secrets.konamiActivated ? `hsl(${(Date.now()*0.1+80)%360}, 60%, 55%)` : 
+                              (Secrets.moonActivated ? '#7F8C8D' : '#527a64');
+                ctx.beginPath();
+                ctx.arc(dino.x + 8, dino.y - 39, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+            }
+
+            function drawObstacle(obs) {
+                ctx.shadowColor = '#1d3b1a';
+                ctx.shadowBlur = 6;
+                ctx.shadowOffsetY = 3;
+
+                let cactusColor1, cactusColor2, spikeColor;
+
+                if (obs.golden) {
+                    cactusColor1 = '#FFD700';
+                    cactusColor2 = '#DAA520';
+                    spikeColor = '#FFFACD';
+                } else if (Secrets.konamiActivated) {
+                    const hue = (obs.x * 0.1 + Date.now() * 0.05) % 360;
+                    cactusColor1 = `hsl(${hue}, 80%, 50%)`;
+                    cactusColor2 = `hsl(${hue + 30}, 80%, 40%)`;
+                    spikeColor = `hsl(${hue + 60}, 90%, 70%)`;
+                } else if (Secrets.moonActivated) {
+                    cactusColor1 = '#2E4053';
+                    cactusColor2 = '#1C2833';
+                    spikeColor = '#5D6D7E';
+                } else {
+                    cactusColor1 = '#3c7840';
+                    cactusColor2 = '#235f2a';
+                    spikeColor = '#e8d86a';
+                }
+
+                const grad = ctx.createLinearGradient(obs.x, obs.y, obs.x + obs.width, obs.y + obs.height);
+                grad.addColorStop(0, cactusColor1);
+                grad.addColorStop(1, cactusColor2);
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.roundRect(obs.x, obs.y, obs.width, obs.height, 6);
+                ctx.fill();
+
+                ctx.fillStyle = cactusColor1;
+                ctx.beginPath();
+                ctx.roundRect(obs.x - 10, obs.y + 12, 10, 18, 5);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.roundRect(obs.x + obs.width, obs.y + 8, 10, 20, 5);
+                ctx.fill();
+
+                ctx.fillStyle = spikeColor;
+                ctx.shadowBlur = 4;
+                for (let i=0;i<5;i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(obs.x + 4 + i*6, obs.y - 3);
+                    ctx.lineTo(obs.x + 8 + i*6, obs.y - 10);
+                    ctx.lineTo(obs.x + 12 + i*6, obs.y - 3);
+                    ctx.fill();
+                }
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+            }
+
+            function drawDust() {
+                dustParticles.forEach((p) => {
+                    ctx.fillStyle = `rgba(209, 157, 104, ${p.life})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            function drawStars() {
+                if (!Secrets.moonActivated) return;
+                
+                ctx.fillStyle = 'rgba(255, 255, 200, 0.8)';
+                for (let i = 0; i < 50; i++) {
+                    let x = (i * 37 + Date.now() * 0.02) % canvas.width;
+                    let y = (i * 19) % 200;
+                    let size = (Math.sin(Date.now() * 0.001 + i) * 0.5 + 1) * 2;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function drawStartScreen() {
+                ctx.fillStyle = 'rgba(17, 44, 52, 0.85)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffde9e';
+                ctx.font = 'bold 52px "Segoe UI", "Tahoma", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 16;
+                ctx.fillText('🦕', canvas.width/2, canvas.height/2 - 40);
+                ctx.font = 'bold 40px "Segoe UI"';
+                ctx.fillStyle = '#fffbe3';
+                ctx.fillText('ادخل الوادي', canvas.width/2, canvas.height/2 + 40);
+                ctx.font = '26px "Segoe UI"';
+                ctx.fillStyle = '#e0ebc9';
+                ctx.fillText('إضغط Space للانطلاق', canvas.width/2, canvas.height/2 + 110);
+                ctx.font = '20px "Segoe UI"';
+                ctx.fillStyle = '#ffd966';
+                ctx.fillText('🎲 7 أسرار تنتظر من يكتشفها...', canvas.width/2, canvas.height/2 + 160);
+                ctx.shadowBlur = 0;
+            }
+
+            function drawGameOver() {
+                ctx.fillStyle = 'rgba(7, 27, 34, 0.9)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#fbd692';
+                ctx.font = 'bold 56px "Segoe UI", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = '#072026';
+                ctx.shadowBlur = 14;
+                ctx.fillText('انتهت المغامرة', canvas.width/2, canvas.height/2 - 40);
+                ctx.font = '36px sans-serif';
+                ctx.fillStyle = '#ffc49b';
+                ctx.fillText(`🥇 ${Math.floor(score)} نقطة`, canvas.width/2, canvas.height/2 + 30);
+                ctx.font = '28px sans-serif';
+                ctx.fillStyle = '#b3e4d4';
+                ctx.fillText('إضغط Enter للتحدي مجدداً', canvas.width/2, canvas.height/2 + 100);
+                ctx.shadowBlur = 0;
+            }
+
+            // ----------  تحديث اللعبة  ----------
+            function updateGame() {
+                if (gameState !== 'playing') return;
+
+                // سرعة متزايدة + تأثير دينو توربو
+                let currentSpeed = speed;
+                if (Secrets.dino2Activated) {
+                    currentSpeed = speed * 1.5;
+                    dino.dy *= 1.1; // قفز أعلى
+                }
+
+                dino.dy += GRAVITY;
+                dino.y += dino.dy;
+                
+                // التحقق من المنصات السرية أولاً
+                if (!Secrets.checkPlatformCollision(dino)) {
+                    if (dino.y > GROUND_Y) {
+                        if (!dino.grounded) {
+                            for (let i=0;i<6;i++) {
+                                dustParticles.push({
+                                    x: dino.x + 20 + Math.random()*20,
+                                    y: GROUND_Y - 6,
+                                    radius: 3 + Math.random()*5,
+                                    life: 0.7 + Math.random()*0.3,
+                                    vx: -Math.random()*3,
+                                    vy: -Math.random()*2
+                                });
+                            }
+                        }
+                        dino.y = GROUND_Y;
+                        dino.dy = 0;
+                        dino.grounded = true;
+                    } else {
+                        dino.grounded = false;
+                    }
+                }
+
+                speed = 4.6 + (score / 280);
+                if (speed > 13) speed = 13;
+
+                for (let i=obstacles.length-1; i>=0; i--) {
+                    obstacles[i].x -= Secrets.dino2Activated ? speed * 1.5 : speed;
+                    
+                    if (obstacles[i].x + obstacles[i].width < 0) {
+                        if (obstacles[i].golden) {
+                            score += 200;
+                            Sound.goldenCactus();
+                            Secrets.secretMessage = '🌵 صبار ذهبي! +200';
+                            Secrets.secretMessageTimer = 80;
+                        }
+                        obstacles.splice(i, 1);
+                        score += 35;
+                        Sound.score();
+                    }
+                }
+
+                const now = Date.now();
+                if (now - lastObsTime > obsInterval && gameState === 'playing') {
+                    let obsHeight = 42 + Math.floor(Math.random() * 28);
+                    let isGolden = Math.random() < 0.03;
+                    obstacles.push({
+                        x: canvas.width,
+                        y: GROUND_Y - obsHeight + 8,
+                        width: 16 + Math.random() * 10,
+                        height: obsHeight,
+                        golden: isGolden
+                    });
+                    lastObsTime = now;
+                    obsInterval = Math.max(680, obsInterval - 4.5);
+                }
+
+                // تحديث السحب
+                for (let i=clouds.length-1; i>=0; i--) {
+                    clouds[i].x -= speed * 0.2;
+                    if (clouds[i].x + 80 < 0) clouds.splice(i,1);
+                }
+                if (now - lastCloudTime > 1800 + Math.random()*1500) {
+                    clouds.push({ 
+                        x: canvas.width+30, 
+                        y: 50+Math.random()*70, 
+                        size: 18+Math.random()*16 
+                    });
+                    lastCloudTime = now;
+                }
+
+                // تحديث التلال
+                for (let i=hills.length-1; i>=0; i--) {
+                    hills[i].x -= speed * 0.09;
+                    if (hills[i].x + 260 < 0) hills.splice(i,1);
+                }
+                if (now - lastHillTime > 2000) {
+                    hills.push({ 
+                        x: canvas.width+50, 
+                        baseY: GROUND_Y-15, 
+                        height: 65+Math.random()*45 
+                    });
+                    lastHillTime = now;
+                }
+
+                // تحديث جزيئات الغبار
+                for (let i=dustParticles.length-1; i>=0; i--) {
+                    let p = dustParticles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= 0.015;
+                    p.radius *= 0.98;
+                    if (p.life <= 0 || p.radius < 0.3) dustParticles.splice(i,1);
+                }
+
+                // تحديث الأسرار
+                Secrets.updateBirds();
+                Secrets.updatePlatforms(speed);
+
+                // التصادم
+                for (let obs of obstacles) {
+                    if (dino.x + 15 < obs.x + obs.width &&
+                        dino.x + 33 > obs.x &&
+                        dino.y - 48 < obs.y + obs.height &&
+                        dino.y - 10 > obs.y) {
+                        gameState = 'gameover';
+                        Sound.gameOver();
+                        if (Math.floor(score) > highScore) {
+                            highScore = Math.floor(score);
+                            localStorage.setItem('dinoHighScore', highScore);
+                            highscoreEl.textContent = `👑 القياسي: ${highScore}`;
+                        }
+                        Secrets.reset();
+                    }
+                }
+
+                score += 0.17;
+            }
+
+            // ----------  حلقة الرسم الرئيسية  ----------
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // السماء
+                if (Secrets.moonActivated) {
+                    const grad = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+                    grad.addColorStop(0, '#0B1C2F');
+                    grad.addColorStop(0.5, '#1A2F3F');
+                    grad.addColorStop(1, '#2C3E50');
+                    ctx.fillStyle = grad;
+                } else if (Secrets.konamiActivated) {
+                    const grad = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+                    grad.addColorStop(0, '#ff9a9e');
+                    grad.addColorStop(0.5, '#fad0c4');
+                    grad.addColorStop(1, '#fbc2eb');
+                    ctx.fillStyle = grad;
+                } else {
+                    const grad = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
+                    grad.addColorStop(0, '#ffb984');
+                    grad.addColorStop(0.5, '#ffd3a5');
+                    grad.addColorStop(1, '#fff3d1');
+                    ctx.fillStyle = grad;
+                }
+                ctx.fillRect(0, 0, canvas.width, GROUND_Y-5);
+
+                // النجوم (وضع الليل)
+                drawStars();
+
+                // العناصر
+                drawHills();
+                clouds.forEach(drawCloud);
+                Secrets.drawBirds(ctx);
+                drawGround();
+                Secrets.drawPlatforms(ctx);
+                obstacles.forEach(drawObstacle);
+                drawDino();
+                drawDust();
+
+                // النقاط
+                ctx.font = 'bold 34px "Segoe UI", "Tahoma"';
+                ctx.fillStyle = Secrets.konamiActivated ? '#FF1493' : (Secrets.moonActivated ? '#F7DC6F' : '#233e42');
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = '#b6d6c9';
+                ctx.fillText(`⚡${Math.floor(score)}`, canvas.width - 110, 65);
+                ctx.shadowBlur = 0;
+
+                // الرسالة السرية
+                Secrets.drawSecretMessage(ctx, canvas);
+
+                // شاشات البداية والنهاية
+                if (gameState === 'start') drawStartScreen();
+                if (gameState === 'gameover') drawGameOver();
+
+                // تحديث لوحة النتائج
+                scoreEl.textContent = `🏆 النقاط: ${Math.floor(score)}`;
+                if (Math.floor(score) > highScore) {
+                    highScore = Math.floor(score);
+                    highscoreEl.textContent = `👑 القياسي: ${highScore}`;
+                    localStorage.setItem('dinoHighScore', highScore);
+                }
+            }
+
+            function gameLoop() {
+                if (gameState === 'playing') {
+                    updateGame();
+                }
+                draw();
+                requestAnimationFrame(gameLoop);
+            }
+
+            // ----------  أحداث التحكم  ----------
+            document.addEventListener('keydown', (e) => {
+                if (gameState === 'playing' || gameState === 'start') {
+                    Secrets.checkKey(e.code);
+                }
+
+                if (e.code === 'Space' || e.code === 'ArrowUp') {
+                    e.preventDefault();
+                    if (gameState === 'start') {
+                        gameState = 'playing';
+                        score = 0;
+                        obstacles = [];
+                        clouds = [];
+                        hills = [];
+                        dustParticles = [];
+                        dino.y = GROUND_Y;
+                        dino.dy = 0;
+                        lastObsTime = Date.now();
+                        obsInterval = 1500;
+                        speed = 4.8;
+                        Secrets.reset();
+                    }
+                    else if (gameState === 'playing' && dino.grounded) {
+                        dino.dy = Secrets.dino2Activated ? -16 : -13.2;
+                        dino.grounded = false;
+                        Sound.jump();
+                        for (let i=0;i<5;i++) dustParticles.push({
+                            x: dino.x + 15, y: GROUND_Y-4, radius: 5, life: 0.8, vx: -1.5, vy: -1
+                        });
+                    }
+                }
+
+                if (e.code === 'Enter' && (gameState === 'gameover' || gameState === 'start')) {
+                    e.preventDefault();
+                    gameState = 'playing';
+                    score = 0;
+                    obstacles = [];
+                    clouds = [];
+                    hills = [];
+                    dustParticles = [];
+                    dino.y = GROUND_Y;
+                    dino.dy = 0;
+                    lastObsTime = Date.now();
+                    obsInterval = 1500;
+                    speed = 4.8;
+                    Secrets.reset();
+                }
+            });
+
+            window.addEventListener('keydown', function(e) {
+                if (e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'Enter' ||
+                    e.code === 'ArrowDown' || e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
+                    e.preventDefault();
+                }
+            });
+
+            // أداة الرسم الدائري
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.moveTo(x + r, y);
+                this.lineTo(x + w - r, y);
+                this.quadraticCurveTo(x + w, y, x + w, y + r);
+                this.lineTo(x + w, y + h - r);
+                this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                this.lineTo(x + r, y + h);
+                this.quadraticCurveTo(x, y + h, x, y + h - r);
+                this.lineTo(x, y + r);
+                this.quadraticCurveTo(x, y, x + r, y);
+                return this;
+            };
+
+            gameLoop();
+        })();
+    </script>
 </body>
 </html>
